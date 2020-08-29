@@ -1,11 +1,84 @@
 {%extends 'base.html'%}
 
+  <title>Home Page</title> 
+
 {%block content%}
-<h1>home page</h1>
-<h2>components:</h2>
-<li>friend-nadav</li>
-<li>coordinate-sidi</li>
-<li>gatherer-rotem</li>
-<li>login-tal</li>
+    {% load static %}
+    <link href="{%static '/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> 
+    {% load static %}
+    <link href="{%static '/home.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+   <header>
+      <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4" style="text-align:center">
+              <h4 class="text-white">עובדה מעניינת</h4>
+              <p class="text-muted">ברגעים אלו פועל גרעין ההקמה לסניף גיביט החדש באויברסיטת ירושלים</p>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <h4 class="text-white">Contact</h4>
+              <ul class="list-unstyled">
+                <li><a href="#" class="text-white">Follow us on Twitter</a></li>
+                <li><a href="#" class="text-white">Like on Facebook</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            <strong>גלריית תמונות</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </header> 
+
+    <div class="jumbotron" id="home-page-headline">
+        <h1>{%block title%} LEAVE IT TO GIVIT {%endblock%}</h1> 
+        <br><h2 id="colorDisplay" class="block">סטודנטים למען סטודנטים</h2><br> 
+    </div>
+
+    <div id="stripe">
+        <button id="newColors">משתמש חדש</button>
+        <span class="answer"></span>
+        <button id="easyButton">חבר רשום</button>
+        <button id="hardButton">מתאם</button>
+    </div>
+
+    <form class="form-signin" style="text-align:right; margin-top:5%" action="requestAuth" method="POST">
+      <h1 class="h3 mb-3 font-weight-normal">התחבר</h1>
+        <input type="email" id="inputEmail" class="form-control" placeholder="הכנס כתובת מייל" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" placeholder="הכנס סיסמא" required>
+      <div class="checkbox mb-3">
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" href="./request_box.html" type="submit">התחבר</button>
+    </form>
+
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- ================================================== --> 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="bootstrap/js/jquery-slim.min.js"><\/script>')</script>
+    {% load static %}
+    <script src=" {%static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    {% load static %}
+    <script src="{%static '/bootstrap/js/holder.min.js' %}"></script> 
+  </body>
 
 {%endblock%}
+</html>
