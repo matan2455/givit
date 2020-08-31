@@ -82,7 +82,24 @@ A step by step series that tell you how to get Project Groot up and running
 4. navigate to the sync repo in vm
 
 ```
-   cd /vagrant/GIVIT/
+   cd /vagrant/givitsite/
+```
+
+5. Creating an admin user
+
+First we’ll need to create a user who can login to the admin site. Run the following command:
+
+```
+   python3 manage.py createsuperuser
+```
+
+Enter your desired username and press enter.
+You will then be prompted for your desired email address
+The final step is to enter your password. You will be asked to enter your password twice, the second time as a confirmation of the first.
+
+6.
+
+```
    python3 manage.py runserver 0:8000
 ```
 
@@ -97,19 +114,29 @@ vagrant destroy -f
 
 # Dependencies
 
-we are planning to supply a requirement.txt and a bootstrap file that will install all the needed libraries.
+1. We supply a requirement.txt and a bootstrap.sh file that will install all the needed libraries when you do **vagrant up**, with this command:
 
-this are the current use libraries:
+```
+pip3 install -r /vagrant/requirements.txt
+```
 
-Python 3.7
+2. If you want to see all the needed libraries for GIVIT-app you can find in **requirment.txt**
 
-Django 3.1
+3. Finally, we create requirements.txt file to make it easier for other developers to install the correct versions of the required Python libraries for our project.
 
-beautifulsoup4 4.8.2
+   if you a develper and you want to create or update this file, you need to do:
 
-bs4 0.0.1
+   - after we do **vagrant up** and **vagrant ssh**
+   - and then **cd /vagrant/givitsite/**
+   - when you finish to "pip3 install" all the new library, do the following command:
 
-urllib3 1.25.7
+```
+pip3 freeze > /vagrant/requirements.txt
+```
+
+for more information:
+
+https://medium.com/@boscacci/why-and-how-to-make-a-requirements-txt-f329c685181e#:~:text=In%20short%2C%20we%20generate%20and,Python%20code%20we've%20written.
 
 # team members:
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-echo "install python and pip3"
+
+# Installing packages
 apt update
 apt install -y python3.7 python3-pip postgresql postgresql-contrib
-sudo apt-get install libpq-dev
+sudo apt install libpq-dev
 pip3 install --upgrade pip
-pip3 install django==3.1
-pip3 install psycopg2
+pip3 install -r /vagrant/requirements.txt
 
 # DB creation
 sudo -u postgres createdb givit

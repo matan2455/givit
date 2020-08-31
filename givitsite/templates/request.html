@@ -3,18 +3,40 @@
 {%block content%}
 
 <h1>How can we help?</h1>
-<form action="requestItem" method="POST">
+<form action="" method="POST">
 
     {%csrf_token%}
-    what item do you need?: <input type = "text" name = "item" />
-    <br>
-    city to deliver: <input type = "text" name = "city" />
-    <br>
+    what item do you need?: 
+    <select id="item" name="item" size="1">
+      <option value="bed">Bed</option>
+      <option value="desk">desk</option>
+      <option value="TV">TV</option>
+      <option value="washing machine">washing machine</option>
+      <option value="bed">laptop</option>
+      <option value="fridge">fridge</option>
+      <option value="oven">oven</option>
+      <option value="sofa">sofa</option>
+      <option value="microwave oven">microwave oven</option>
+      <option value="chair">chair</option>
+      <option value="computer screen">computer screen</option>
+      <option value="keyboard">keyboard</option>
+    </select><br><br>
+    city to deliver (pick the closest option for yout apartment):
+    <select id="city" name="city" size="1">
+        <option value="Tel Aviv">Tel Aviv</option>
+        <option value="Herzeliya">Herzeliya</option>
+        <option value="Natanya">Natanya</option>
+        <option value="Jerusalem">Jerusalem</option>
+        <option value="Ranana">Ranana</option>
+        <option value="Kfar sava">Kfar sava</option>
+        <option value="Haifa">Haifa</option>
+        <option value="Rosh Haain">Rosh Haain</option>
+        <option value="Modiin">Modiin</option>
+        <option value="Beer Sheva">Beer Sheva</option>
+      </select><br><br>
     special requests : 
     <br />
-    <textarea rows = "5" cols = "50" name = "specialreq">
-       Enter description here...
-    </textarea>
+    <textarea rows = "5" cols = "50" name = "specialreq"></textarea>
     <br>
     <input type = "submit" name = "submit" value = "Submit" />
 </form>
