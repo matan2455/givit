@@ -1,0 +1,51 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<button type='button' class='btn btn-primary' onclick="location.href='/friend/request'"type="button">new request</button>
+<h1>My Feed</h1>
+{% if allRequests %}
+
+
+{% for req in allRequests%}
+<div>
+ <p>{{req.item}}</p>
+<ul>
+    <li>Region:{{req.region}}</li>
+    <li>Special Requests:{{req.special_req}}</li>
+    <li> Founds:
+     <table border="1" width='70%'>
+        <tr>
+            <td>Title</td>
+            <td>City</td>
+            <td>URL</td>
+            <td>Phone Number</td>
+            <td>Pic</td>
+            <td>Match</td>
+        </tr>
+    {% for item in founds %}
+    {% if item.request_id == req.id %}
+            <tr>
+                <td>{{item.title}}</td>
+                <td>{{item.city}}</td>
+                <td><a href="{{item.url}}">link</a></td>
+                <td>{{item.phone_number}}</td>
+                <td><img src="{{item.picture}}" width='50px'/></td>
+                {% comment %} beyond-io/givit#22 {% endcomment %}
+                <td><button type='button' class='btn btn-primary'>match</button></td>
+            </tr>
+        
+    {% endif %}
+    {%endfor%}
+    </table>
+    </li>
+</ul>
+</div>
+    {%endfor%}
+
+
+{% else %}
+<p>no requests yet</p>
+{% endif %}
+
+
+{%endblock%}
