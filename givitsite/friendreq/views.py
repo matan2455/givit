@@ -10,7 +10,9 @@ def itemRequest_create_view(request):
     form = itemRequestForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
+            fs =form.save(commit=False)
+            fs.friend_id = request.user
+            fs.save()
         context = {
             'form' :form
         }
@@ -21,9 +23,14 @@ def itemRequest_create_view(request):
         }    
         return render(request, 'itemRequestform.html',context)
 
-def requestItem(request):
 
-    if request.method == 'GET':
-        founditems = ItemsFound.objects.all()
-        allrequests = ItemRequest.objects.all()
-        return render (request, 'feed.html', {'founds':founditems, 'allRequests':allrequests})
+def requestItem(request):
+    # on match
+    if request.method == 'POST':
+        id = request.POST["id"]
+        matchItem = ItemsFound.objects.filter(pk=id).update(match=True)
+
+    founditems = ItemsFound.objects.all()
+    allrequests = ItemRequest.objects.all()
+    return render (request, 'feed.html', {'founds':founditems, 'allRequests':allrequests})
+
