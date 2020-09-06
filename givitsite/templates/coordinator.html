@@ -1,0 +1,165 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<head>
+    <script>
+        function set_for_coordination(item,friend_id, request_id, pickup_location, drop_off_location, image_url) {
+            document.getElementById("coordination-form").hidden = false;
+            document.getElementById("coordination-div").hidden = false;
+            
+            document.getElementById("item").value =  item;
+            document.getElementById("friend_id").value =  friend_id;
+            document.getElementById("request_id").value =  request_id;
+            document.getElementById("pickup_location").value =  pickup_location;
+            document.getElementById("drop_off_location").value =  drop_off_location;
+            document.getElementById("image_url").src = image_url;
+
+            document.getElementById("item").placeholder = "item: " + item;
+            document.getElementById("friend_id").placeholder = "friend_id: " + friend_id;
+            document.getElementById("request_id").placeholder +=  "request_id: " + request_id;
+            document.getElementById("pickup_location").placeholder +=  "pickup_location:" + pickup_location;
+            document.getElementById("drop_off_location").placeholder +=  "drop_off_location:" + drop_off_location;
+        }
+
+        function hide_form(){
+            document.getElementById("coordination-form").hidden = true;
+            document.getElementById("coordination-div").hidden = true;
+        }
+
+        function enableInputs(){
+            inputs = document.getElementByType('input');
+            console.log(inputs);
+            inputs.foreach(input => input.disabled = "false");
+        }
+
+        function implement_filters(){
+            City = document.getElementById("cityButton");
+            Item = document.getElementById("itemButton");
+            var filteredItems;
+
+            if(City.value = "City"){
+                filteredItems = itemsToCoordinate;
+            }
+            else
+            {
+                for(item in itemsToCoordinate){
+                    if((item.get("pickup_location")) == City){
+                        filteredItems.add(item);
+                    }
+                }
+            }
+            itemsToCoordinate = filteredItems;
+        }
+    </script>
+
+
+</head>
+
+    <div id="stripe">
+        <button type='button' id="newColors" style="align-self:left" onclick="location.href='/shipmentTable.html'">get coordinated items</button>
+        <button type='button' id="newColors" style="align-self:left" onclick="implement_filters()">implement filters</button>
+        <span class="answer"></span>
+        <select id="itemButton" name="item" size="1" style="border:none; display: inline-block;margin-left: 40px;">
+            <option value="">Item Type</option>
+            <option value="bed">Bed</option>
+            <option value="desk">desk</option>
+            <option value="TV">TV</option>
+            <option value="washing machine">washing machine</option>
+            <option value="bed">laptop</option>
+            <option value="fridge">fridge</option>
+            <option value="oven">oven</option>
+            <option value="sofa">sofa</option>
+            <option value="microwave oven">microwave oven</option>
+            <option value="chair">chair</option>
+            <option value="computer screen">computer screen</option>
+            <option value="keyboard">keyboard</option>
+        </select>
+        <select id="cityButton" name="city" size="1" style="border:none; margin-left: 40px;">
+            <option value="">City</option>
+            <option value="Tel Aviv">Tel Aviv</option>
+            <option value="Herzeliya">Herzeliya</option>
+            <option value="Natanya">Natanya</option>
+            <option value="Jerusalem">Jerusalem</option>
+            <option value="Ranana">Ranana</option>
+            <option value="Kfar sava">Kfar sava</option>
+            <option value="Haifa">Haifa</option>
+            <option value="Rosh Haain">Rosh Haain</option>
+            <option value="Modiin">Modiin</option>
+            <option value="Beer Sheva">Beer Sheva</option>
+        </select>
+    </div>
+
+<form method='POST' action="/coordinate/file" style="margin:auto; padding: 3px;  width:20%"> {%csrf_token%}
+  <div class="form-row align-items-center">
+    <div class="col-auto">
+      <label class="sr-only" for="inlineFormInput">Name</label>
+      <input type="date" class="form-control mb-2" name="date" id="inlineFormInput" placeholder="chose date">
+    </div>
+    <div class="col-auto">
+      <button type="submit" onclick="location.href='/file'" class="btn btn-primary mb-2">create brief</button>
+    </div>
+  </div>
+</form>
+
+
+{% if itemsToCoordinate %}
+{% for item in itemsToCoordinate %}
+
+    <p>{{item.title}}</p>
+<div>
+    <ul>
+        <table class="table table-bordered table-striped" style="width:85%">
+            <tr>
+                <td>Item type</td>
+                <td>pick up</td>
+                <td>drop off</td>
+                <td>URL</td>
+                <td>Phone Number</td>
+                <td>Pic</td>
+                <td>coordinate form</td> 
+            </tr>
+            <tr>
+                <td>{{item.item}}</td>
+                <td>{{item.pickup_location}}</td>
+                <td>{{item.drop_off_location}}</td>
+                <td><a href="{{item.url}}">link</a></td>
+                <td>{{item.phone_number}}</td>
+                <td><img src="{{item.url}}" style='width:150px; height:150px'/></td>
+                <td><button type='input' class="btn btn-primary"     
+                onclick="set_for_coordination('{{item.item}}','{{item.friend_id}}', '{{item.request_id}}', '{{item.pickup_location}}', '{{item.drop_off_location}}','{{item.url}}');">
+                open</button>
+                <button type='input' class="btn btn-danger"     
+                        style="margin-left:10px" onclick="hide_form();">close</button>
+                </td>
+            </tr>
+        </table>
+        </li>
+    </ul>
+</div>
+{%endfor%}
+
+<div class="jumbotron center" id="coordination-div" hidden="true" style="margin:auto;width: 50%;border: 3px solid green; padding: 10px;width:50%; background:steelblue">
+    <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
+    <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the following contacts:</h5> 
+    <form  method="POST" hidden="true" class="form-group" id="coordination-form" style="margin: auto; width: 50%;margin-top:7%">    {%csrf_token%}
+        <input id="friend_id" name="friend_id" readonly>
+        <input id ="request_id"  name="request_id" readonly> 
+        <input id ="item" name="item" readonly> 
+        <input id ="pickup_location" name="pickup_location" readonly> 
+        <input id ="drop_off_location" name="drop_off_location" readonly> 
+        {% comment %} <inpuet id="special_notes" type="text" name="special_notes"> {% endcomment %}
+        <input id="date" placeholder="insert date of transfer" type="date" name="date">
+        <input id="pickup_time" placeholder="insert pick up time" type="time" name="pickup_time" step="1">
+        <input id="drop_off_time" placeholder="insert drop off time" type="time" name="drop_off_time" step="1">
+        <button class="btn-success"  onclick="enableInputs()"  type="submit" value="send" style="border:solid white 1.5px; margin-top:10px">add to schedual</button>
+    </form>
+    <img class="card-img-top" src="" id="image_url" alt="Card image cap" style="border:solid black 2px; self-align:center;height:10%; width:10%">
+</div>
+
+
+{% else %}
+    <p>no items to coordinate</p>
+{% endif %}
+
+
+{%endblock%}

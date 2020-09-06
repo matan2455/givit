@@ -32,12 +32,12 @@ STATUS_CHOICES = [
 class ItemRequest(models.Model):
     #friennd ID inherite from user table
     friend_id = models.IntegerField(default = 305355356)
-    item = models.CharField(max_length = 40,choices = ITEM_CHOICES)
-    region = models.CharField(max_length = 40,choices = REGION_CHOICES)
+    item = models.CharField(max_length = 40,choices = ITEM_CHOICES, default = REGION_CHOICES[0])
+    region = models.CharField(max_length = 40,choices = REGION_CHOICES, default = REGION_CHOICES[0])
     special_req= models.TextField()
     status = models.CharField(max_length = 40,default = 'open', choices = STATUS_CHOICES)
-    
-    
+
+     
 class ItemsFound(models.Model):
     request_id = models.IntegerField()
     url = models.CharField(max_length=200)

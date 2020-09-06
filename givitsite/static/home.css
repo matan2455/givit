@@ -77,6 +77,13 @@
     color: white;
   }
   
+  .center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+  }
+
   .form-signin {
     width: 100%;
     max-width: 330px;
