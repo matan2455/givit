@@ -32,11 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
     'accounts.apps.AccountsConfig',
-=======
->>>>>>> 3e5934bc3ac0f4263c15d82e6e01f6f155f545e0
+
     'givitsite',
+    'coordinate',
     'friendreq',
     'django.contrib.admin',
     'django.contrib.auth',
