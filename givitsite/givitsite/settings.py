@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'givitsite',
+    'coordinate',
     'friendreq',
     'django.contrib.admin',
     'django.contrib.auth',
