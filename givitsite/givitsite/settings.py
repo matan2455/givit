@@ -32,7 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
     'accounts.apps.AccountsConfig',
+=======
+>>>>>>> 3e5934bc3ac0f4263c15d82e6e01f6f155f545e0
     'givitsite',
     'friendreq',
     'django.contrib.admin',
@@ -40,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',  
 ]
 
 MIDDLEWARE = [

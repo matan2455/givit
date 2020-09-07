@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
 from django.conf import settings
 from django.conf.urls.static import static 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+=======
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+>>>>>>> 3e5934bc3ac0f4263c15d82e6e01f6f155f545e0
 
 urlpatterns = [
     path('', include('home.urls')),
@@ -27,4 +32,7 @@ urlpatterns = [
 ]
 
 urlpatterns += staticfiles_urlpatterns()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3e5934bc3ac0f4263c15d82e6e01f6f155f545e0
