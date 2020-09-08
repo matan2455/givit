@@ -10,7 +10,7 @@ STATUS_CHOICES = [
 
 
 class CoordinatedItems(models.Model):
-    #friennd ID inherite from user table
+
     friend_id = models.CharField(max_length = 40, default = 305355356)
     request_id = models.IntegerField(default = 1234)
     date = models.DateField(auto_now=True, auto_now_add=False)

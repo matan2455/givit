@@ -33,7 +33,7 @@
         }
 
         function implement_filters(){
-            //TODO - implement chosen filters 
+            //TODO - implement chosen filters #61
         }
     </script>
 
@@ -73,26 +73,17 @@
         </select>
     </div>
 
-    <form method='POST' action="/coordinate/file" style="margin:auto; padding:3px; width:30%"> {%csrf_token%}
+    <form method='POST' action="/coordinate/create_brief" style="margin:auto; padding:3px; width:30%"> {%csrf_token%}
         <div class="row" style="display:inline">
             <input type="date" class="form-control mb-2" name="date" id="inlineFormInput" placeholder="choose date" style="width:50%">
             <button type="submit" class="btn btn-primary mb-2" style="width:50%">create brief</button>
         </div>
     </form>
 
-     <form method='POST' action="/coordinate/download_file" style="margin:auto; padding:3px;  width:30%"> {%csrf_token%}
-        <div class="row">
-            <button type="submit" class="btn btn-success mb-2" style="width:55%">download brief</button>
-        </div>
-    </form>
-
-
 
 {% for item in matchedItems %}
     {% for request in openRequests %}  
        {% if item.request_id == request.id %}
-            <!-- TODO - add user details --> 
-            {% comment %} {% for user in users %} {% endcomment %} 
                 <div>
                     <ul>
                         <table class="table table-bordered table-striped" style="width:85%; margin-top:20px">
@@ -121,7 +112,6 @@
                     </ul>
                 </div>
 
-                <!--  hidden form - appears only when requested -->  
                 <div class="jumbotron center" id="coordination-div" hidden="true" style="margin-bottom:10%; margin:auto; width:60%; border:3px solid white; padding:10px; background:lavender">
                     <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
                     <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the following contacts:</h5> 
@@ -147,7 +137,6 @@
                         </div>
                     </form>
                 </div>
-            {% comment %} {%endfor%} {% endcomment %}
         {% endif %}
     {%endfor%}
 {%endfor%}
