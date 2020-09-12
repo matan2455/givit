@@ -2,40 +2,6 @@
 
 {%block content%}
 <head>
-    <script>
-        function set_for_coordination(item,friend_id, request_id, pickup_location, drop_off_location, image_url) {
-            document.getElementById("coordination-form").hidden = false;
-            document.getElementById("coordination-div").hidden = false;
-
-            document.getElementById("item").value =  item;
-            document.getElementById("friend_id").value =  friend_id;
-            document.getElementById("request_id").value =  request_id;
-            document.getElementById("pickup_location").value =  pickup_location;
-            document.getElementById("drop_off_location").value =  drop_off_location;
-            document.getElementById("image_url").src = image_url;
-
-            document.getElementById("item").placeholder = "item: " + item;
-            document.getElementById("friend_id").placeholder = "friend_id: " + friend_id;
-            document.getElementById("request_id").placeholder +=  "request_id: " + request_id;
-            document.getElementById("pickup_location").placeholder +=  "pickup_location:" + pickup_location;
-            document.getElementById("drop_off_location").placeholder +=  "drop_off_location:" + drop_off_location;
-        }
-
-        function hide_form(){
-            document.getElementById("coordination-form").hidden = true;
-            document.getElementById("coordination-div").hidden = true;
-        }
-
-        function enableInputs(){
-            inputs = document.getElementByType('input');
-            console.log(inputs);
-            inputs.foreach(input => input.disabled = "false");
-        }
-
-        function implement_filters(){
-            //TODO - implement chosen filters #61
-        }
-    </script>
 
 </head>
     <div id="stripe">
@@ -73,13 +39,6 @@
         </select>
     </div>
 
-    <form method='POST' action="/coordinate/create_brief" style="margin:auto; padding:3px; width:30%"> {%csrf_token%}
-        <div class="row" style="display:inline">
-            <input type="date" class="form-control mb-2" name="date" id="inlineFormInput" placeholder="choose date" style="width:50%">
-            <button type="submit" class="btn btn-primary mb-2" style="width:50%">create brief</button>
-        </div>
-    </form>
-
 
 {% for item in matchedItems %}
     {% for request in openRequests %}  
@@ -102,7 +61,7 @@
                                 <td><a href="{{item.url}}">link</a></td>
                                 <td><img src="{{item.picture}}" style='width:150px; height:150px'/></td>
                                 <td><button type='input' class="btn btn-primary"     
-                                onclick="set_for_coordination('{{item.title}}','{{request.friend_id}}', '{{item.request_id}}', '{{item.city}}', '{{item.city}}','{{item.picture}}');">
+                                onclick="set_for_coordination();">
                                 open</button>
                                 <button type='input' class="btn btn-danger"     
                                         style="margin-left:10px" onclick="hide_form();">close</button>
@@ -114,26 +73,12 @@
 
                 <div class="jumbotron center" id="coordination-div" hidden="true" style="margin-bottom:10%; margin:auto; width:60%; border:3px solid white; padding:10px; background:lavender">
                     <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
-                    <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the following contacts:</h5> 
+                    <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the relevant contacts:</h5> 
                     <form  method="POST" hidden="true" id="coordination-form" style="margin: auto; width:60%; margin-top:7%">    {%csrf_token%}
                         <div  class="row">
-                            <div  class="col" >
-                                    <lable>coordination details</lable>
-                                    <input id="friend_id" name="friend_id" readonly>
-                                    <input id ="request_id"  name="request_id" readonly> 
-                                    <input id ="item" name="item" readonly> 
-                                    <input id ="pickup_location" name="pickup_location" readonly> 
-                                    <input id ="drop_off_location" name="drop_off_location" readonly> 
-                            </div>
-                            <div class="col" >
-                                    <lable>insert date and time</lable>
-                                    <inpuet id="special_notes" type="text" name="special_notes"> 
-                                    <input id="date" placeholder="insert date of transfer" type="date" name="date">
-                                    <input id="pickup_time" placeholder="insert pick up time" type="time" name="pickup_time" step="1">
-                                    <input id="drop_off_time" placeholder="insert drop off time" type="time" name="drop_off_time" step="1">
-                                    <button class="btn-success"  onclick="enableInputs()"  type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">schedual</button>
-                                    <img class="card-img-top" src="" id="image_url" alt="Card image cap" style="border:solid white 2px; self-align:center;height:30%; width:40%">
-                            </div>
+                            {{form.as_p}}
+                            <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">schedual</button>
+                            <img class="card-img-top" src="" id="image_url" alt="Card image cap" style="border:solid white 2px; self-align:center;height:30%; width:40%">
                         </div>
                     </form>
                 </div>

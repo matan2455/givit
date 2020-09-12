@@ -5,3 +5,4 @@ from . models import CoordinatedItems
 sys.path.append('../')
 admin.site.register(CoordinatedItems)
 
+
