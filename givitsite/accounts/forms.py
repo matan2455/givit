@@ -1,52 +1,42 @@
 from django import forms
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from . models import Profile
 
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    student_id = forms.IntegerField()
-    phone_number = forms.IntegerField()
-    date_of_birth = forms.CharField(max_length=100)
-    home_address = forms.CharField(max_length=100)
-    field_of_study = forms.CharField(max_length=100)
-    degree = forms.CharField(max_length=100)
-    scholarship = forms.CharField(max_length=100)
-    membership_type = forms.CharField(max_length=100)
 
     class Meta:
         model = User
-        fields = (
+        fields = [
             "first_name",
             "last_name",
             "username",
-            "student_id",
-            'password1',
-            'password2',
-            'email',
-            'phone_number',
-            'date_of_birth',
-            'home_address',
-            "field_of_study",
-            'degree',
-            'scholarship',
-            'membership_type'
-        )
+            "password1",
+            "password2",
+            "email",
+        ]
 
     def save(self, commit=True):
-        user = super(RegistrationForm, self).save(commit=False)
+        user = super().save(commit=False)
+
+        user.email = self.cleaned_data['email']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.email = self.cleaned_data['email']
-        user.phone_number = self.cleaned_data['phone_number']
-        user.date_of_birth = self.cleaned_data['date_of_birth']
-        user.home_address = self.cleaned_data['home_address']
-        user.field_of_study = self.cleaned_data['field_of_study']
-        user.degree = self.cleaned_data['degree']
-        user.scholarship = self.cleaned_data['scholarship']
-        user.membership_type = self.cleaned_data['membership_type']
 
         if commit:
             user.save()
-
         return user
+
+class PersonInfoForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            'student_id',
+            'phone_number', 
+            'date_of_birth',
+            'home_address',
+            'field_of_study',
+            'degree',
+            'scholarship',
+            'membership_type',
+            ]

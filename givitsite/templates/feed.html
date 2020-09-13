@@ -1,10 +1,11 @@
 {%extends 'base.html'%}
 
 {%block content%}
-<h1>{{request.user}}'s Feed</h1>
+<h1>{{request.user.first_name}}'s Feed</h1>
 {% for req in allRequests%}
-{% if req.friend_id == request.user %}
+{% if req.friend_id == request.user%}
 <div class= "jumbotron jumbotron-fluid">
+
  <h3>{{req.get_item_display}}</h3>
  <br>
 <ul class="list-group list-group-flush">
@@ -23,15 +24,16 @@
             <td>Match</td>
         </tr>
     {% for item in founds %}
-    {% if item.request_id == req.id %}
+    {% if item.request_id == req %}
         <tr>
             <td>{{item.title}}</td>
             <td>{{item.city}}</td>
             <td><a href="{{item.url}}">link</a></td>
             <td><img src="{{item.picture}}" width='50px'/></td>
             <td>
-                <input type='hidden' name="id" value ={{item.id}} />
-                <button type='submit' class='btn btn-primary'  {% if item.match %}disabled  {% endif %}>match</button>
+                <input type='hidden' name="item_id" value ={{item.id}} />
+                <input type='hidden' name="req_id" value ={{req.id}} />
+                <button type='submit' class='btn btn-primary'>match</button>
             </td>
             
         </tr>

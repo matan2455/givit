@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from .models import ItemRequest
 from .models import ItemsFound
 from .forms import itemRequestForm
-
-# Create your views here.
+from django.db import transaction
 
 def itemRequest_create_view(request):
     form = itemRequestForm(request.POST or None)
@@ -24,13 +23,17 @@ def itemRequest_create_view(request):
         return render(request, 'itemRequestform.html',context)
 
 
-def requestItem(request):
+def requestItem(request):      
     # on match
     if request.method == 'POST':
-        id = request.POST["id"]
-        matchItem = ItemsFound.objects.filter(pk=id).update(match=True)
+        with transaction.atomic():
+            item_id = request.POST["item_id"]
+            matchItem = ItemsFound.objects.filter(pk=item_id).update(match=True)
+            req_id = request.POST["req_id"]
+            req =  ItemRequest.objects.filter(pk=req_id).update(status='in_process')
+
 
     founditems = ItemsFound.objects.all()
-    allrequests = ItemRequest.objects.all()
-    return render (request, 'feed.html', {'founds':founditems, 'allRequests':allrequests})
-
+    allrequests = ItemRequest.objects.filter(status='open')
+    context = {'founds':founditems, 'allRequests':allrequests}
+    return render (request, 'feed.html', context)

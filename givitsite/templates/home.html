@@ -4,5 +4,6 @@
   {% comment %} <title>Home Page</title>  {% endcomment %}
 
 {%block content%}
-<h3>דף הבית</h3>
+{%load static%}
+<img src="{% static 'images/homepage.PNG' %}" class="rounded mx-auto d-block" >
 {%endblock%}

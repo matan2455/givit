@@ -22,15 +22,14 @@ Givit web-application will automate the procces of gathering our friends demands
 
 implemted with Django the following components:
 
-1. Demand controller-manage the friends requests and the demand DB.
-2. Found controller-get updates from found-DB mange the verification and coordination procces.
+1. friend app: manage the friends requests anf the friends feed
 
-3. Gatherer Controller:
+2. Gatherer app:
    - automated system that will iterate the relevant sites(firat step Agora site second step facbook groups).
    - get requests from the Demand DB and updete the found DB.
    - operate details: we open vm in google cloud and using crontab run our script every hour, how create json file with our new searches.
 
-DB- TBD.
+3. coordinate app: manage the coordinations of approved items
 
 ## Frontend
 
@@ -46,14 +45,8 @@ implemented with bootstrap the following components:
 ## login system
 
 - two users groups: friends, coordinates.
-- technology- TBD.
 
 ## CI/CD- TBD
-
-## issues & dillemas
-
-- online feed is good ides with server-sdie rendering (or its better clieant side? how to avoid react in first stage?)
-- DB?
 
 # Getting started
 
@@ -61,51 +54,44 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them:
+install:
 
 - Download and Install [Vagrant](https://www.vagrantup.com/) and [Virtual Box](https://www.virtualbox.org/) on your local computer
-- Clone/ Download the zip file from the Groot repository to your local computer
+- Clone/ Download the zip file from the givit repository to your local computer
 
 ### Initializing Project Groot Virtual Environment
 
-A step by step series that tell you how to get Project Groot up and running
+A step by step series that tell you how to get Project givit up and running
 
-1. Clone + Fork the repository
-2. Open command prompt and navigate to the local directory where all the files are
-3. Spin the environment using:
+1. Start the app:
 
 ```
    vagrant up
-   vagrant ssh
 ```
 
-4. navigate to the sync repo in vm
+this command:
+- spin the VM.
+- set a virtual environment (pipenv).
+- install all the dependencies using the pipfile.
+- set the DB scheme.
+- run on the background the givit server.
 
+2. enter the app by open your browser and go to:
 ```
-   cd /vagrant/givitsite/
+  http://localhost:8000/
 ```
+now, as a default there exist in the system a super user with:
+- user name = 'givit'
+- password = 'givit'
+if you want to cange them set the following environment variables:
 
-5. Creating an admin user
+DJANGO_SU_NAME="NEW_USERNAME"
 
-First we’ll need to create a user who can login to the admin site. Run the following command:
+DJANGO_SU_EMAIL="NEW_EMAIL"
 
-```
-   python3 manage.py createsuperuser
-```
+DJANGO_SU_PASSWORD="NEW_PASSWORS'
 
-Enter your desired username and press enter.
-You will then be prompted for your desired email address
-The final step is to enter your password. You will be asked to enter your password twice, the second time as a confirmation of the first.
-
-6.
-
-```
-   python3 manage.py runserver 0:8000
-```
-
-5. open your browser and nevigate to http://localhost:8000/Hello/
-
-6. When finished, tear down the environment using:
+3. When finished, tear down the environment using:
 
 ```
 exit
@@ -114,30 +100,24 @@ vagrant destroy -f
 
 # Dependencies
 
-1. We supply a requirement.txt and a bootstrap.sh file that will install all the needed libraries when you do **vagrant up**, with this command:
+all the required dependencies are handled by the pipfile.
+if you need to a new library:
+```
+  vagrnat ssh
+   cd /vagrant/givitsite/
+   pipenv shell
+   pipenv sync
+   pipenv install "LIBRARY_NAME"
+```
+# Set Timezone
+for our Gatherer app we need to make sure that the timezone is set to ...
+1. Before changing the time zone, you’ll need to find out the long name of the time zone you want to use. The time zone naming convention usually uses a “Region/City” format.
 
 ```
-pip3 install -r /vagrant/requirements.txt
+timedatectl list-timezones
+sudo timedatectl set-timezone Asia/Jerusalem
+timedatectl
 ```
-
-2. If you want to see all the needed libraries for GIVIT-app you can find in **requirment.txt**
-
-3. Finally, we create requirements.txt file to make it easier for other developers to install the correct versions of the required Python libraries for our project.
-
-   if you a develper and you want to create or update this file, you need to do:
-
-   - after we do **vagrant up** and **vagrant ssh**
-   - and then **cd /vagrant/givitsite/**
-   - when you finish to "pip3 install" all the new library, do the following command:
-
-```
-pip3 freeze > /vagrant/requirements.txt
-```
-
-for more information:
-
-https://medium.com/@boscacci/why-and-how-to-make-a-requirements-txt-f329c685181e#:~:text=In%20short%2C%20we%20generate%20and,Python%20code%20we've%20written.
-
 # team members:
 
 ### -Rotem Ben Zvi
