@@ -44,6 +44,6 @@ class CoordinationForm(forms.ModelForm):
 
 
 def close_related_request(request):
-    ItemRequest.objects.filter(id = request.POST['request_id']).update(status='close')
+    ItemRequest.objects.filter(id = request.POST['request_id']).update(status='closed')
 
 

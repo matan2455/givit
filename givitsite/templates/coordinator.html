@@ -2,9 +2,70 @@
 
 {%block content%}
 
+        <div id="stripe" style="width:70%;">
+            <form method="GET" action="filter_requests">
+                    <button type='submit' id="newColors" style="align-self:left">implement filters</button>
+                    <span class="answer"></span>
+                    <lable> Item type:  </lable>
+                    <select id="itemButton" name="item" size="1" value="All" style="text-align-last:center; border:1ppx solid black;; display: inline-block; margin-left: 20ppx;">
+                        <option value="" selected>All</option>
+                        <option value="bed">Bed</option>
+                        <option value="desk">desk</option>
+                        <option value="TV">TV</option>
+                        <option value="washing machine">washing machine</option>
+                        <option value="bed">laptop</option>
+                        <option value="fridge">fridge</option>
+                        <option value="oven">oven</option>
+                        <option value="sofa">sofa</option>
+                        <option value="microwave oven">microwave oven</option>
+                        <option value="chair">chair</option>
+                        <option value="computer screen">computer screen</option>
+                        <option value="keyboard">keyboard</option>
+                    </select>
+                    <lable> city pick up:  </lable>
+                    <select id="cityPickUpButton" name="city_pickup" size="1" style="text-align-last:center; border:1ppx solid black;; margin-left: 20ppx;">
+                        <option value="" selected>All</option>
+                        <option value="Tel Aviv">Tel Aviv</option>
+                        <option value="Herzeliya">Herzeliya</option>
+                        <option value="Natanya">Natanya</option>
+                        <option value="Jerusalem">Jerusalem</option>
+                        <option value="Ranana">Ranana</option>
+                        <option value="Kfar sava">Kfar sava</option>
+                        <option value="Haifa">Haifa</option>
+                        <option value="Rosh Haain">Rosh Haain</option>
+                        <option value="Modiin">Modiin</option>
+                        <option value="Beer Sheva">Beer Sheva</option>
+                        
+                    </select>
+                    <lable> city drop off:  </lable>
+                    <select id="cityDropOffButton" name="city_drop_off" size="1" style="text-align-last:center; border:1ppx solid black; margin-left: 20ppx;">
+                        <option value="" selected>All</option>
+                        <option value="Tel Aviv">Tel Aviv</option>
+                        <option value="Herzeliya">Herzeliya</option>
+                        <option value="Natanya">Natanya</option>
+                        <option value="Jerusalem">Jerusalem</option>
+                        <option value="Ranana">Ranana</option>
+                        <option value="Kfar sava">Kfar sava</option>
+                        <option value="Haifa">Haifa</option>
+                        <option value="Rosh Haain">Rosh Haain</option>
+                        <option value="Modiin">Modiin</option>
+                        <option value="Beer Sheva">Beer Sheva</option>
+                    </select>
+                </form>
+            </div>
+           
+
+        <form  method="GET" action="create_brief" style="left:20ppx;margin: auto; width:40%; margin-top:7%;padding:1%; background:lavender;">    {%csrf_token%}
+            <h5>choose date and submit to get coordinated items view</h5>
+            <input type="date">
+            <button class="btn-success" type="submit" value="send" style="height:24%;width:40%; border:solid white 2px; margin-top:10px">get scedualed items</button>
+        </form>
+
 {% for item in matchedItems %}
     {% for request in openRequests %} 
        {% if item.request_id == request %} 
+          {% for profile in profiles %}
+             {% comment %} {% if profile.user = requst.user%}  {% endcomment %}
                 <div>
                     <ul>
                         <table class="table table-bordered table-striped" style="width:85%; margin-top:20px">
@@ -19,9 +80,9 @@
                             </tr>
                             <tr>
                                 <td>{{item.title}}</td>
-                                <td>{{item.city}}</td>
-                                <td>{{request.user.home_address}}</td>
-                                <td>{{request.user.phone_number}}</td>
+                                <td><p>{{item.city}}</td>
+                                <td><p>{{profile.address_city}}</p> - <p>{{profile.address_street_name}} - </p> <p>{{profile.address_house_number}}</p></td>
+                                <td>{{profile.phone_number}}</td>
                                 <td><a href="{{item.url}}">link</a></td>
                                 <td><img src="{{item.picture}}" style='width:150px; height:150px'/></td>
                                 <td><button type='input' class="btn btn-primary"     
@@ -32,19 +93,22 @@
                         </table>
                     </ul>
                 </div>
-
-                <div class="jumbotron center" id="coordination-div" hidden="true" style="margin-bottom:10%; margin:auto; width:60%; border:3px solid white; padding:10px; background:lavender">
-                    <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
-                    <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the relevant contacts:</h5> 
-                    <form  method="POST" id="coordination-form" style="margin: auto; width:60%; margin-top:7%">    {%csrf_token%}
-                        <div  class="row">
-                            {{form.as_table}}
-                            <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">schedual</button>
-                        </div>
-                    </form>
-                </div>
-         {% endif %} 
-    {%endfor%}
+            {% comment %} {% endif %}  {% endcomment %}
+        {%endfor%}
+     {% endif %} 
+   {%endfor%}
 {%endfor%}
+
+    <div class="jumbotron center" id="coordination-div" hidden="true" style="margin-bottom:10%; margin:auto; width:60%; border:3px solid white; padding:10px; background:lavender">
+                <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
+                <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the relevant contacts:</h5> 
+                <form  method="POST" id="coordination-form" style="margin: auto; width:60%; margin-top:7%">    {%csrf_token%}
+                    <div  class="row">
+                        {{form.as_table}}
+                        <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">schedual</button>
+                    </div>
+                </form>
+            </div>
 {%endblock%}
+
 
