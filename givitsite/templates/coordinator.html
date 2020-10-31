@@ -22,6 +22,14 @@
             </select>
         </form>
     </div>
+    <div class="jumbotron center" id="" style="margin-bottom:10%; margin:auto; width:50%;height:5%; border:3px solid white; padding:10px; background:lavender"> 
+        <form  method="GET" action="brief" style="margin: auto; width:40%; margin-top:7%">    {%csrf_token%}
+            <div style-"display: inline-block" class="column">
+                <input type="date">
+                <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">show coordinations</button>
+            </div>
+        </form>
+    </div>
 
 {% for item in matchedItems %}
     {% for request in openRequests %} 

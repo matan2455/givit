@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from friendreq.models import (ITEM_CHOICES, REGION_CHOICES, ItemRequest,
                               ItemsFound)
 
-from .models import CoordinationForm, close_related_request
+from .models import CoordinatedItems, CoordinationForm, close_related_request
 
 
 def coordinator_create_view(request):
@@ -27,6 +27,30 @@ def coordinator_create_view(request):
             close_related_request(request)
 
         return redirect('/coordinate')
+
+
+def render_coordinated_items(request):
+    allCoordinations = CoordinatedItems.objects.all()
+    coordinatedObjectsDataList = []
+    for item in allCoordinations:
+        itemFound = ItemsFound.objects.filter(
+            request_id=item.request_id).first()
+        itemRequest = ItemRequest.objects.get(pk=item.request_id.id)
+        render_dict = {
+            'transfer_date': item.transfer_date,
+            'item': item.item,
+            'student': itemRequest.User,
+            'pickup_location': item.pickup_location,
+            'pickup_time': item.pickup_time,
+            'drop_off_location': item.drop_off_location,
+            'drop_off_time': item.drop_off_time,
+            'url': itemFound.url,
+            'picture': itemFound.picture
+        }
+        coordinatedObjectsDataList.append(render_dict)
+    print(allCoordinations)
+    return render(request, 'schedualedItems.html',
+                  {'coordinatedObjectsDataList': coordinatedObjectsDataList})
 
 
 def get_filters_as_lists():

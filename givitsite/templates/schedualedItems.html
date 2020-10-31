@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+{% for item in coordinatedObjectsDataList %} 
+    <div>
+        <ul>
+            <table class="table table-bordered table-striped" style="width:85%; margin-top:20px">
+                <tr>
+                    <td>transfer date</td>
+                    <td>Item type</td>
+                    <td>User</td>
+                    <td>pick up location</td>
+                    <td>pick up time</td>
+                    <td>drop off location</td>
+                    <td>drop off time</td>
+                    <td>URL</td>
+                    <td>Picture</td>
+                </tr>
+                <tr>
+                    <td>{{item.transfer_date}}</td>
+                    <td>{{item.item}}</td>
+                    <td>{{item.student.phone_number}}</td>
+                    <td>{{item.pickup_location}}</td>
+                    <td>{{item.pickup_time}}</td>
+                    <td>{{item.drop_off_location}}</td>
+                    <td>{{item.drop_off_time}}</td>
+                    <td><a href="{{item.url}}">link</a></td>
+                    <td><img src="{{item.picture}}" style='width:150px; height:150px'/></td>
+                </tr>
+            </table>
+        </ul>
+    </div>
+
+    <div class="jumbotron center" id="coordination-div" hidden="true" style="margin-bottom:10%; margin:auto; width:60%; border:3px solid white; padding:10px; background:lavender">
+        <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
+        <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the relevant contacts:</h5> 
+        <form  method="POST" id="coordination-form" style="margin: auto; width:60%; margin-top:7%">    {%csrf_token%}
+            <div  class="row">
+                {{form.as_table}}
+                <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">schedual</button>
+            </div>
+        </form>
+    </div>
+{%endfor%}
+
+{%endblock%}
+

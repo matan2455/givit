@@ -1,7 +1,6 @@
 import urllib.request
 
 import pytest
-
 from django.contrib.auth.models import User
 from friendreq.models import ITEM_CHOICES, ItemRequest, ItemsFound
 from gatherer import agora
