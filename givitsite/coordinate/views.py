@@ -1,13 +1,11 @@
-from accounts.views import get_user_profile_data
 from django.shortcuts import redirect, render
 from friendreq.models import (ITEM_CHOICES, REGION_CHOICES, ItemRequest,
                               ItemsFound)
 
-from .models import CoordinationForm, close_related_request
+from .models import CoordinatedItems, CoordinationForm, close_related_request
 
 
 def coordinator_create_view(request):
-    user_profile = user_profile = get_user_profile_data(request.user)
     if request.method == 'GET':
         form = CoordinationForm()
         matchedItems, openRequests = get_data_query_sets(request)
@@ -17,8 +15,7 @@ def coordinator_create_view(request):
             'matchedItems': matchedItems,
             'openRequests': openRequests,
             'region_choices': region_choices_list,
-            'item_choices': item_choices_list,
-            'user_profile': user_profile
+            'item_choices': item_choices_list
         }
 
         return render(request, 'coordinator.html', render_dict)
@@ -29,11 +26,32 @@ def coordinator_create_view(request):
             fs.save()
             close_related_request(request)
 
+        return redirect('/coordinate')
+
+
+def render_coordinated_items(request):
+    date = request.GET.get('shipment_date')
+    allCoordinations = CoordinatedItems.objects.filter(transfer_date=date)
+    coordinatedObjectsDataList = []
+    for item in allCoordinations:
+        itemFound = ItemsFound.objects.filter(
+            request_id=item.request_id).first()
+        itemRequest = ItemRequest.objects.get(pk=item.request_id.id)
         render_dict = {
-            'user_profile': user_profile
+            'transfer_date': item.transfer_date,
+            'item': item.item,
+            'student': itemRequest.User,
+            'pickup_location': item.pickup_location,
+            'pickup_time': item.pickup_time,
+            'drop_off_location': item.drop_off_location,
+            'drop_off_time': item.drop_off_time,
+            'url': itemFound.url,
+            'picture': itemFound.picture
         }
 
-        return redirect('/coordinate', render_dict)
+        coordinatedObjectsDataList.append(render_dict)
+    return render(request, 'schedualedItems.html',
+                  {'coordinatedObjectsDataList': coordinatedObjectsDataList})
 
 
 def get_filters_as_lists():

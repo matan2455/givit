@@ -56,8 +56,8 @@
           {% endif %}
           <button onclick="location.href='/'"type="button">Home Page</button>
           {% if user_profile.membership_type == 'coordinator' or user.is_superuser %}
-          <button onclick="location.href='/coordinate/create_brief'"type="button">Create Brief</button>
-          <button onclick="location.href='/coordinate/'"type="button">View Matches</button>
+          <button onclick="location.href='/coordinate/'"type="button">Create Brief</button>
+          <button onclick="location.href='/coordinate/brief'"type="button">View Matches</button>
           {% endif %}
           {% if user_profile.membership_type == 'friend' or user.is_superuser %}
           <button onclick="location.href='/friend/request'"type="button">New Request</button>
@@ -90,8 +90,6 @@
     <!-- ================================================== --> 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="bootstrap/js/jquery-slim.min.js"><\/script>')</script>
-    {% load static %}
-    <script src=" {%static 'bootstrap/js/util.functions.js' %}"></script>
     {% load static %}
     <script src=" {%static 'bootstrap/js/bootstrap.min.js' %}"></script>
     {% load static %}

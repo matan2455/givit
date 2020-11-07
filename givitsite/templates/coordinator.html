@@ -1,6 +1,24 @@
 {%extends 'base.html'%}
 
+
 {%block content%}
+
+    <script>
+        function populate_form(requestId,item, pickupLocation,dropOffLocation,phoneNumber) {
+            document.getElementById("coordination-div").hidden = false;
+
+            document.getElementById("id_request_id").value = requestId;
+            document.getElementById("id_pickup_location").value = pickupLocation;
+            document.getElementById("id_drop_off_location").value = dropOffLocation;
+            document.getElementById("id_student_phone_number").value = phoneNumber;
+            document.getElementById("id_item").value = item;
+        }
+
+        function hide_form(){
+            document.getElementById("coordination-div").hidden = true;
+        }
+
+    </script>
 
      <div id="stripe" style="width:50%;">
         <form method="GET">
@@ -20,6 +38,14 @@
                     <option value="{{city}}">{{city}}</option>
                 {%endfor%}
             </select>
+        </form>
+    </div>
+    <div class="jumbotron center" id="" style="margin-bottom:10%; margin:auto; width:50%;height:5%; border:3px solid white; padding:10px; background:lavender"> 
+        <form  method="GET" action="brief" style="margin: auto; width:40%; margin-top:7%">    {%csrf_token%}
+            <div style-"display: inline-block" class="column">
+                <input type="date" name="shipment_date">
+                <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">show coordinations</button>
+            </div>
         </form>
     </div>
 
@@ -42,11 +68,11 @@
                                 <td>{{item.title}}</td>
                                 <td>{{item.city}}</td>
                                 <td>{{request.user.home_address}}</td>
-                                <td>{{request.user.phone_number}}</td>
+                                <td>{{request.user.student_phone_number}}</td>
                                 <td><a href="{{item.url}}">link</a></td>
                                 <td><img src="{{item.picture}}" style='width:150px; height:150px'/></td>
-                                <td><button type='input' class="btn btn-primary"     
-                                onclick="set_for_coordination();">open</button>
+                                <td><button id="open_form" type='input' class="btn btn-primary"     
+                                onclick="populate_form('{{request.id}}','{{request.item}}','{{item.city}}', '{{item.city}}',{{request.user.student_phone_number}});">open</button>
                                 <button type='input' class="btn btn-danger"     
                                         style="margin-left:10px" onclick="hide_form();">close</button></td>
                             </tr>
@@ -58,7 +84,7 @@
                     <h1 class="display-4" style="text-align:center">COORDINATION FORM</h1> 
                     <h5 style="text-align:center">Insert Dates and times for transfer after coordinating with the relevant contacts:</h5> 
                     <form  method="POST" id="coordination-form" style="margin: auto; width:60%; margin-top:7%">    {%csrf_token%}
-                        <div  class="row">
+                        <div class="row">
                             {{form.as_table}}
                             <button class="btn-success" type="submit" value="send" style="height:24%;width:50%; border:solid white 2px; margin-top:10px">schedual</button>
                         </div>
@@ -68,4 +94,3 @@
     {%endfor%}
 {%endfor%}
 {%endblock%}
-
